@@ -3,6 +3,7 @@ import { ChatRounded, MoreVert, Search } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
 import * as EmailValidator from "email-validator";
+import { auth, db } from "../firebase";
 
 const createChat = () => {
   const input = prompt(
@@ -14,7 +15,6 @@ const createChat = () => {
   if (EmailValidator.validate(input)) {
     // we need to add the chat into DB 'chats' collections
     // if email is valid we need to push it to the database
-  
   }
 };
 
@@ -22,7 +22,7 @@ function Sidebar() {
   return (
     <Container>
       <Header>
-        <UseAvatar />
+        <UseAvatar onClick={() => auth.signOut()} />
 
         <IconsContainer>
           <IconButton>
