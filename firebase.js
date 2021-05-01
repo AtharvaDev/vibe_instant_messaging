@@ -16,7 +16,7 @@ const firebaseConfig = {
 
 // if we have already intitalized the app then go to firebase.app() or initialize with firebaseConfig
 const app = !firebase.apps.length
-  ? firebase.intitalizeApp(firebaseConfig)
+  ? firebase.initializeApp(firebaseConfig)
   : firebase.app();
 
 const db = app.firestore();
@@ -24,4 +24,3 @@ const auth = app.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 
 export { db, auth, provider };
-

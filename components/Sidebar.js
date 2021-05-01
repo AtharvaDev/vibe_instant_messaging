@@ -2,6 +2,21 @@ import { Avatar, Button, IconButton } from "@material-ui/core";
 import { ChatRounded, MoreVert, Search } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
+import * as EmailValidator from "email-validator";
+
+const createChat = () => {
+  const input = prompt(
+    "Please enter an email address of the user you want to chat with"
+  );
+
+  if (!input) return null;
+
+  if (EmailValidator.validate(input)) {
+    // we need to add the chat into DB 'chats' collections
+    // if email is valid we need to push it to the database
+  
+  }
+};
 
 function Sidebar() {
   return (
@@ -22,9 +37,8 @@ function Sidebar() {
         <Search />
         <SearchInput placeholder="Search in chats" />
       </SearchDiv>
-      <SidebarButton>Start a new chat</SidebarButton>
+      <SidebarButton onClick={createChat}>Start a new chat</SidebarButton>
     </Container>
-    
   );
 }
 
