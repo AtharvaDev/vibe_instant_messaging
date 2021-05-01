@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     if (user) {
-      console.log(user);
+      // console.log(user);
       db.collection("users").doc(user.uid).set(
         {
           email: user.email,

@@ -4,25 +4,48 @@ import React from "react";
 import styled from "styled-components";
 import * as EmailValidator from "email-validator";
 import { auth, db } from "../firebase";
-
-const createChat = () => {
-  const input = prompt(
-    "Please enter an email address of the user you want to chat with"
-  );
-
-  if (!input) return null;
-
-  if (EmailValidator.validate(input)) {
-    // we need to add the chat into DB 'chats' collections
-    // if email is valid we need to push it to the database
-  }
-};
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useCollection } from "react-firebase-hooks/firestore";
+import Chat from "./Chat";
 
 function Sidebar() {
+  const [user] = useAuthState(auth);
+  const userChatRef = db
+    .collection("chats")
+    .where("users", "array-contains", user.email);
+  const [chatsSnapshot] = useCollection(userChatRef);
+
+  const createChat = () => {
+    const input = prompt(
+      "Please enter an email address for the user you with to chat with"
+    );
+
+    if (!input) return null;
+
+    if (
+      EmailValidator.validate(input) &&
+      !chatAlreadyExists(input) &&
+      input !== user.email
+    ) {
+      // we need to add the chat into DB 'chats' collections if it doesn't exist and is valid'
+      // if email is valid we need to push it to the database
+      db.collection("chats").add({
+        users: [user.email, input],
+      });
+    }
+  };
+
+  // this is the person i want to chat with
+  // !! is the value is true or present then it will return true or it will return false
+  const chatAlreadyExists = (recipientEmail) =>
+    !!chatsSnapshot?.docs.find(
+      (chat) =>
+        chat.data().users.find((user) => user === recipientEmail)?.length > 0
+    );
   return (
     <Container>
       <Header>
-        <UseAvatar onClick={() => auth.signOut()} />
+        <UseAvatar src={user.photoURL} onClick={() => auth.signOut()} />
 
         <IconsContainer>
           <IconButton>
@@ -38,6 +61,12 @@ function Sidebar() {
         <SearchInput placeholder="Search in chats" />
       </SearchDiv>
       <SidebarButton onClick={createChat}>Start a new chat</SidebarButton>
+
+      {/* List of chats */}
+      {chatsSnapshot?.docs.map((chat) => (
+        <Chat key={chat.id} id={chat.id} users={chat.data().users} />
+      ))}
+      {/* {chatsSnapshot?.docs.map((chat) => console.log(chat.data().users))} */}
     </Container>
   );
 }
