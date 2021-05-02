@@ -16,7 +16,6 @@ import Message from "./Message";
 import TimeAgo from "timeago-react";
 import getRecipientEmail from "../utils/getRecipientEmail";
 
-
 function ChatScreen({ chat, messages }) {
   const [user] = useAuthState(auth);
   const [input, setInput] = useState("");
@@ -91,7 +90,6 @@ function ChatScreen({ chat, messages }) {
   console.log(recipientSnapshot);
   const recipientEmail = getRecipientEmail(chat.users, user);
 
-  
   return (
     <Container>
       <Header>
@@ -101,7 +99,7 @@ function ChatScreen({ chat, messages }) {
           <Avatar src={recipientEmail[0]}></Avatar>
         )}
         <HeaderInformation>
-        {recipient ? <h3>{recipient?.name}</h3> : <h3>{recipientEmail}</h3>}
+          {recipient ? <h3>{recipient?.name}</h3> : <h3>{recipientEmail}</h3>}
 
           {recipientSnapshot ? (
             <p>
@@ -204,7 +202,14 @@ const EndOfMessage = styled.div`
 
 const MessageContainer = styled.div`
   padding: 30px;
-  background-color: #e5ded8;
+  /* background-color: #e5ded8; */
+
+  background-image: radial-gradient(
+    circle farthest-corner at 1.3% 2.8%,
+    rgba(239, 249, 249, 1) 0%,
+    rgba(182, 199, 226, 1) 100.2%
+  );
+
   height: 80vh;
   overflow-y: scroll;
 
