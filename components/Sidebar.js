@@ -73,7 +73,20 @@ function Sidebar() {
 
 export default Sidebar;
 
-const Container = styled.div``;
+const Container = styled.div`
+  flex: 0.45;
+  height: 100vh;
+  border-right: 1px solid whitesmoke;
+  min-width: 300px;
+  max-width: 350px;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; //IE and Edge
+  scrollbar-width: none; // Firefox
+`;
 
 const SearchDiv = styled.div`
   display: flex;
