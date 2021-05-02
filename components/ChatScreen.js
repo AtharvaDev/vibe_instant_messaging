@@ -16,6 +16,7 @@ import Message from "./Message";
 import TimeAgo from "timeago-react";
 import getRecipientEmail from "../utils/getRecipientEmail";
 
+
 function ChatScreen({ chat, messages }) {
   const [user] = useAuthState(auth);
   const [input, setInput] = useState("");
@@ -90,6 +91,7 @@ function ChatScreen({ chat, messages }) {
   console.log(recipientSnapshot);
   const recipientEmail = getRecipientEmail(chat.users, user);
 
+  
   return (
     <Container>
       <Header>
@@ -99,7 +101,8 @@ function ChatScreen({ chat, messages }) {
           <Avatar src={recipientEmail[0]}></Avatar>
         )}
         <HeaderInformation>
-          <h3>{recipientEmail}</h3>
+        {recipient ? <h3>{recipient?.name}</h3> : <h3>{recipientEmail}</h3>}
+
           {recipientSnapshot ? (
             <p>
               {recipient?.lastSeen?.toDate() ? (
